@@ -1,12 +1,20 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
+const MongoDbStore = require('connect-mongo');
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
 const Document = require('./models/Document');
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/wastebin', {
+// Database connection
+mongoose.set('strictQuery', false);
+
+// Connection URL
+const CONNECTION_URL = process.env.CONNECTION_URL;
+
+mongoose.connect(CONNECTION_URL, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
 });
